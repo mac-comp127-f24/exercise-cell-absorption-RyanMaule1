@@ -1,6 +1,5 @@
 package cellabsorption;
 
-import java.util.Random;
 import java.awt.Color;
 
 
@@ -14,7 +13,7 @@ public class Cell {
     private double direction;
 
 
-    private void Cell(double x, double y, double radius, Color color) {
+    public Cell(double x, double y, double radius, Color color) {
         shape = new Ellipse(x, y, radius * 2, radius * 2);
         shape.setFillColor(color);
         this.radius = radius;
@@ -22,11 +21,11 @@ public class Cell {
     }
 
 
-    private void grow(double amount) {
+    public void grow(double amount) {
         setRadius(radius + amount);
     }
 
-    private void setRadius(double newRadius) {
+    public void setRadius(double newRadius) {
         if (newRadius < 0) {
             newRadius = 0;
         }
@@ -36,7 +35,7 @@ public class Cell {
         shape.setCenter(previousCenter);
     }
 
-    private void moveAround(Point centerOfGravity) {
+    public void moveAround(Point centerOfGravity) {
         shape.moveBy(Math.cos(direction), Math.sin(direction));
 
         double distToCenter = shape.getCenter().distance(centerOfGravity);
@@ -49,8 +48,17 @@ public class Cell {
                 + turnTowardCenter * Math.tanh(distToCenter / WANDER_FROM_CENTER));
     }
 
-    private static double normalizeRadians(double theta) {
+    public static double normalizeRadians(double theta) {
         double pi2 = Math.PI * 2;
         return ((theta + Math.PI) % pi2 + pi2) % pi2 - Math.PI;
+    }
+
+
+    private static double sqr(double x) {
+        return x * x;
+    }
+
+    public Ellipse getShape() {
+        return shape;
     }
 }
